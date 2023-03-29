@@ -1,5 +1,7 @@
 import { exec } from "child_process";
 import fs from "fs/promises";
+import { catFile } from "./fileOperations/catFile.js";
+import { createFile } from "./fileOperations/createFile.js";
 
 console.log(
   `Welcome to the File Manager, ${
@@ -22,7 +24,7 @@ const getFileList = async () => {
 
 getFileList();
 
-process.stdin.on("data", (data) => {
+process.stdin.on("data", async (data) => {
   const values = data.toString().trim().split(" ");
 
   if (values[0] === "up") {
@@ -45,6 +47,12 @@ process.stdin.on("data", (data) => {
         console.table(stdout.trim().split("\n"));
       }
     });
+  } else if (values[0] === "cat") {
+    const path = values.slice(1).join(" ");
+    catFile(path);
+  } else if (values[0] === "add") {
+    const path = values.slice(1).join(" ");
+    await createFile(path);
   }
 
   console.log(process.cwd());
