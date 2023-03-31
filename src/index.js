@@ -4,6 +4,7 @@ import { catFile } from "./fileOperations/catFile.js";
 import { copyFile } from "./fileOperations/copyFile.js";
 import { createFile } from "./fileOperations/createFile.js";
 import { renameFile } from "./fileOperations/renameFile.js";
+import { deleteFile } from "./fileOperations/deleteFile.js";
 
 console.log(
   `Welcome to the File Manager, ${
@@ -56,9 +57,14 @@ process.stdin.on("data", (data) => {
     const path = values.slice(1).join(" ");
     createFile(path);
   } else if (values[0] === "rn") {
-    renameFile(values[1], values[2]);
+    renameFile(values[1], values[2], values[0]);
   } else if (values[0] === "cp") {
     copyFile(values[1], values[2]);
+  } else if (values[0] === "mv") {
+    renameFile(values[1], values[2], values[0]);
+  } else if (values[0] === "rm") {
+    const path = values.slice(1).join(" ");
+    deleteFile(path);
   }
 
   console.log(process.cwd());
