@@ -12,7 +12,7 @@ console.log(
   }!`
 );
 
-process.chdir("G:/");
+process.chdir("C:/");
 
 process.stdin.on("data", (data) => {
   const values = data.toString().trim().split(" ");
