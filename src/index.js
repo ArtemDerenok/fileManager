@@ -6,6 +6,7 @@ import { createFile } from "./fileOperations/createFile.js";
 import { renameFile } from "./fileOperations/renameFile.js";
 import { deleteFile } from "./fileOperations/deleteFile.js";
 import { OsControler } from "./osOperations/osControler.js";
+import { HashControler } from "./hashOperations/hashControler.js";
 
 console.log(
   `Welcome to the File Manager, ${
@@ -76,5 +77,8 @@ process.stdin.on("data", (data) => {
     new OsControler().getSystemUserInfo(values[1]);
   } else if (values[0] === "os" && values[1] === "--architecture") {
     new OsControler().getCpuArchitecture();
+  } else if (values[0] === "hash") {
+    const path = values.slice(1).join(" ");
+    new HashControler().getHash(path);
   }
 });
