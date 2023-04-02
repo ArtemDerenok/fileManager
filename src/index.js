@@ -7,6 +7,7 @@ import { renameFile } from "./fileOperations/renameFile.js";
 import { deleteFile } from "./fileOperations/deleteFile.js";
 import { OsControler } from "./osOperations/osControler.js";
 import { HashControler } from "./hashOperations/hashControler.js";
+import { CompressControler } from "./compressOperations/compressControler.js";
 
 console.log(
   `Welcome to the File Manager, ${
@@ -80,5 +81,9 @@ process.stdin.on("data", (data) => {
   } else if (values[0] === "hash") {
     const path = values.slice(1).join(" ");
     new HashControler().getHash(path);
+  } else if (values[0] === "compress") {
+    new CompressControler().compressFile(values[1], values[2]);
+  } else if (values[0] === "decompress") {
+    new CompressControler().decompressFile(values[1], values[2]);
   }
 });
