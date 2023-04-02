@@ -1,13 +1,9 @@
 import { exec } from "child_process";
 import fs from "fs/promises";
-import { catFile } from "./fileOperations/catFile.js";
-import { copyFile } from "./fileOperations/copyFile.js";
-import { createFile } from "./fileOperations/createFile.js";
-import { renameFile } from "./fileOperations/renameFile.js";
-import { deleteFile } from "./fileOperations/deleteFile.js";
 import { OsControler } from "./osOperations/osControler.js";
 import { HashControler } from "./hashOperations/hashControler.js";
 import { CompressControler } from "./compressOperations/compressControler.js";
+import { FileControler } from "./fileOperations/fileControler.js";
 
 console.log(
   `Welcome to the File Manager, ${
@@ -55,19 +51,19 @@ process.stdin.on("data", (data) => {
     });
   } else if (values[0] === "cat") {
     const path = values.slice(1).join(" ");
-    catFile(path);
+    new FileControler().catFile(path);
   } else if (values[0] === "add") {
     const path = values.slice(1).join(" ");
-    createFile(path);
+    new FileControler().createFile(path);
   } else if (values[0] === "rn") {
-    renameFile(values[1], values[2], values[0]);
+    new FileControler().renameFile(values[1], values[2], values[0]);
   } else if (values[0] === "cp") {
-    copyFile(values[1], values[2]);
+    new FileControler().copyFile(values[1], values[2]);
   } else if (values[0] === "mv") {
-    renameFile(values[1], values[2], values[0]);
+    new FileControler().renameFile(values[1], values[2], values[0]);
   } else if (values[0] === "rm") {
     const path = values.slice(1).join(" ");
-    deleteFile(path);
+    new FileControler().deleteFile(path);
   } else if (values[0] === "os" && values[1] === "--EOL") {
     new OsControler().getEOL();
   } else if (values[0] === "os" && values[1] === "--cpus") {
