@@ -20,8 +20,9 @@ export class CompressControler {
     const brotli = zlib.createBrotliCompress();
     const pipelineAsync = promisify(pipeline);
     try {
-      await pipelineAsync(readStream, brotli, writeStream);
-      console.log("Compressed!");
+      await pipelineAsync(readStream, brotli, writeStream).then(() => {
+        console.log("Compressed");
+      });
     } catch (error) {
       console.log(error.message);
     }
@@ -33,8 +34,9 @@ export class CompressControler {
     const brotli = zlib.createBrotliDecompress();
     const pipelineAsync = promisify(pipeline);
     try {
-      await pipelineAsync(readStream, brotli, writeStream);
-      console.log("Decompressed!");
+      await pipelineAsync(readStream, brotli, writeStream).then(() =>
+        console.log("Decompressed!")
+      );
     } catch (error) {
       console.log(error.message);
     }
