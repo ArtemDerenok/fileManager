@@ -1,9 +1,8 @@
-import { exec } from "child_process";
-import fs from "fs/promises";
 import { OsControler } from "./osOperations/osControler.js";
 import { HashControler } from "./hashOperations/hashControler.js";
 import { CompressControler } from "./compressOperations/compressControler.js";
 import { FileControler } from "./fileOperations/fileControler.js";
+import { NavigationControler } from "./navigationOperations/navigatonControler.js";
 
 console.log(
   `Welcome to the File Manager, ${
@@ -15,40 +14,16 @@ console.log(
 
 process.chdir("G:/");
 
-const getFileList = async () => {
-  try {
-    const files = await fs.readdir(process.cwd());
-    console.table(files);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-getFileList();
-
 process.stdin.on("data", (data) => {
   const values = data.toString().trim().split(" ");
 
   if (values[0] === "up") {
-    process.chdir("..");
-    getFileList();
+    new NavigationControler().upMove();
   } else if (values[0] === "cd") {
     const path = values.slice(1).join(" ");
-
-    try {
-      process.chdir(path);
-      getFileList();
-    } catch (error) {
-      console.error("No such file or directory.");
-    }
+    new NavigationControler().cdMove(path);
   } else if (values[0] === "ls") {
-    exec(`${values.join(" ")}`, (error, stdout, stderr) => {
-      if (error) {
-        getFileList();
-      } else {
-        console.table(stdout.trim().split("\n"));
-      }
-    });
+    new NavigationControler().lsFiles(values);
   } else if (values[0] === "cat") {
     const path = values.slice(1).join(" ");
     new FileControler().catFile(path);
